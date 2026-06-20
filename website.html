@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PluxCode | Next-Gen Tech Solutions</title>
+    <!-- Tailwind CSS für modernes, schnelles Styling -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        /* Sanftes Glühen für die Tech-Ästhetik */
+        .glow {
+            filter: drop-shadow(0 0 12px rgba(0, 210, 255, 0.6));
+        }
+        
+        /* Das Herzstück: Die Morph-Animation des Plus/X */
+        .logo-symbol {
+            display: inline-flex;
+            position: relative;
+            width: 0.7em;
+            height: 0.7em;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            margin: 0 0.1em;
+            /* Perfekt abgefederte Drehung (Back-Ease-Out-Effekt) */
+            transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .bar-v, .bar-h {
+            position: absolute;
+            background: linear-gradient(135deg, #00d2ff, #0072ff);
+            border-radius: 99px;
+        }
+        /* Vertikaler Balken */
+        .bar-v { width: 4px; height: 100%; }
+        /* Horizontaler Balken */
+        .bar-h { width: 100%; height: 4px; }
+
+        /* Wenn die Klasse 'state-x' aktiv ist, rotiert das Element um 45 Grad zum X */
+        .state-x .logo-symbol {
+            transform: rotate(45deg);
+        }
+
+        /* Subtiler Tech-Hintergrund-Grid */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="bg-[#0b111e] text-[#f3f4f6] font-sans antialiased bg-grid min-h-screen flex flex-col justify-between">
+
+    <!-- Header / Navigation -->
+    <header class="container mx-auto px-6 py-6 flex justify-between items-center">
+        <!-- Interaktives Logo -->
+        <div id="main-logo" class="text-2xl font-bold tracking-wide cursor-pointer select-none">
+            Plu<span class="logo-symbol glow"><span class="bar-v"></span><span class="bar-h"></span></span>Code
+        </div>
+        <nav class="hidden md:flex space-x-8 text-sm font-medium text-gray-400">
+            <a href="#" class="hover:text-cyan-400 transition">Services</a>
+            <a href="#" class="hover:text-cyan-400 transition">Projekte</a>
+            <a href="#" class="hover:text-cyan-400 transition">Über uns</a>
+        </nav>
+        <button class="bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 px-5 py-2 rounded-lg text-sm font-semibold transition">
+            Kontakt
+        </button>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="container mx-auto px-6 py-16 md:py-28 flex flex-col items-center text-center flex-grow justify-center">
+        <!-- Kleiner Badge -->
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-xs text-cyan-400 font-medium mb-6">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+            Now Live: Softwareentwicklung 2.0
+        </div>
+
+        <!-- Headline -->
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight max-w-3xl leading-tight">
+            Wir transformieren Ideen in <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">hochwertigen Code</span>.
+        </h1>
+        
+        <p class="mt-6 text-lg text-gray-400 max-w-xl leading-relaxed">
+            Minimalistisches Design trifft auf maximale Performance. PluxCode baut die digitalen Fundamente für die Technologie von morgen.
+        </p>
+
+        <!-- Call to Actions -->
+        <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center w-full sm:w-auto">
+            <button class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold px-8 py-4 rounded-xl shadow-lg shadow-cyan-500/20 transition-all transform hover:-translate-y-0.5">
+                Projekt starten
+            </button>
+            <button class="bg-gray-800/60 hover:bg-gray-800 border border-gray-700 text-gray-300 font-semibold px-8 py-4 rounded-xl transition-all">
+                Mehr erfahren
+            </button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800/60 py-8 bg-[#070b14]/50 backdrop-blur-sm">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 gap-4">
+            <div>&copy; 2026 PluxCode. Alle Rechte vorbehalten.</div>
+            <div class="flex space-x-6">
+                <a href="#" class="hover:text-gray-400">Impressum</a>
+                <a href="#" class="hover:text-gray-400">Datenschutz</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript für die automatische & interaktive Animation -->
+    <script>
+        const logo = document.getElementById('main-logo');
+
+        // Funktion zum Umschalten des Zustands (Plus <-> X)
+        function toggleLogoState() {
+            logo.classList.toggle('state-x');
+        }
+
+        // 1. Automatischer Loop alle 3 Sekunden für den "Aha!"-Effekt auf der Seite
+        let animationInterval = setInterval(toggleLogoState, 3000);
+
+        // 2. Interaktivität: Wenn der Nutzer selbst drüber hovert
+        logo.addEventListener('mouseenter', () => {
+            clearInterval(animationInterval); // Loop stoppen, wenn User interagiert
+            logo.classList.add('state-x');    // Sofort zum X morphen
+        });
+
+        logo.addEventListener('mouseleave', () => {
+            logo.classList.remove('state-x'); // Zurück zum Plus
+            // Loop neu starten
+            animationInterval = setInterval(toggleLogoState, 3000);
+        });
+    </script>
+</body>
+</html>
