@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Minimalistisches Design trifft auf maximale Performance. PluxCode baut die digitalen Fundamente für die Technologie von morgen.">
     <title>PluxCode | Next-Gen Tech Solutions</title>
     <!-- Tailwind CSS für modernes, schnelles Styling -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -54,8 +55,8 @@
     <!-- Header / Navigation -->
     <header class="container mx-auto px-6 py-6 flex justify-between items-center">
         <!-- Interaktives Logo -->
-        <div id="main-logo" class="text-2xl font-bold tracking-wide cursor-pointer select-none">
-            Plu<span class="logo-symbol glow"><span class="bar-v"></span><span class="bar-h"></span></span>Code
+        <div id="main-logo" class="text-2xl font-bold tracking-wide cursor-pointer select-none" aria-label="PluxCode">
+            <span aria-hidden="true">Plu<span class="logo-symbol glow"><span class="bar-v"></span><span class="bar-h"></span></span>Code</span>
         </div>
         <nav class="hidden md:flex space-x-8 text-sm font-medium text-gray-400">
             <a href="#" class="hover:text-cyan-400 transition">Services</a>
@@ -98,7 +99,7 @@
     <!-- Footer -->
     <footer class="border-t border-gray-800/60 py-8 bg-[#070b14]/50 backdrop-blur-sm">
         <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 gap-4">
-            <div>&copy; 2026 PluxCode. Alle Rechte vorbehalten.</div>
+            <div>&copy; <span id="current-year"></span> PluxCode. Alle Rechte vorbehalten.</div>
             <div class="flex space-x-6">
                 <a href="#" class="hover:text-gray-400">Impressum</a>
                 <a href="#" class="hover:text-gray-400">Datenschutz</a>
@@ -108,6 +109,9 @@
 
     <!-- JavaScript für die automatische & interaktive Animation -->
     <script>
+        // Dynamisches Copyright-Jahr
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
         const logo = document.getElementById('main-logo');
 
         // Funktion zum Umschalten des Zustands (Plus <-> X)
@@ -115,19 +119,29 @@
             logo.classList.toggle('state-x');
         }
 
-        // 1. Automatischer Loop alle 3 Sekunden für den "Aha!"-Effekt auf der Seite
-        let animationInterval = setInterval(toggleLogoState, 3000);
+        // Check for prefers-reduced-motion
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // 1. Automatischer Loop alle 3 Sekunden für den "Aha!"-Effekt auf der Seite (nur wenn nicht reduziert)
+        let animationInterval;
+        if (!prefersReducedMotion) {
+            animationInterval = setInterval(toggleLogoState, 3000);
+        }
 
         // 2. Interaktivität: Wenn der Nutzer selbst drüber hovert
         logo.addEventListener('mouseenter', () => {
-            clearInterval(animationInterval); // Loop stoppen, wenn User interagiert
+            if (!prefersReducedMotion) {
+                clearInterval(animationInterval); // Loop stoppen, wenn User interagiert
+            }
             logo.classList.add('state-x');    // Sofort zum X morphen
         });
 
         logo.addEventListener('mouseleave', () => {
             logo.classList.remove('state-x'); // Zurück zum Plus
-            // Loop neu starten
-            animationInterval = setInterval(toggleLogoState, 3000);
+            // Loop neu starten (nur wenn nicht reduziert)
+            if (!prefersReducedMotion) {
+                animationInterval = setInterval(toggleLogoState, 3000);
+            }
         });
     </script>
 </body>
